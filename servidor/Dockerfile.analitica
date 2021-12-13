@@ -1,0 +1,11 @@
+FROM tensorflow/tensorflow
+
+WORKDIR /app
+RUN set -ex && \
+    pip install numpy pandas scipy pika
+ENV TZ=America/Bogota
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update && apt-get install -y tzdata
+RUN pip install paho-mqtt
+RUN pip install scikit-learn
+CMD ["python", "proxy.py"]
